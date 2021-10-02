@@ -17,6 +17,7 @@
 // 16 minutes
 #define RECOVERY_TIME 960000
 
+boolean idle;
 uint8_t runCount, runTotal;
 Neotimer runTimer = Neotimer(RUN_TIME);
 Neotimer recoveryTimer = Neotimer(RECOVERY_TIME);
@@ -52,13 +53,15 @@ void setup() {
   pinMode(STOP_BTN, INPUT);
   pinMode(NO_RELAY, OUTPUT);
   pinMode(NC_RELAY, OUTPUT);
+  idle = true;
   digitalWrite(IDLE_RED_LED, HIGH);
 }
 
 void loop() {
-  if (digitalRead(START_BTN) == HIGH && !runTimer.started() && !recoveryTimer.started()) {
+  if (digitalRead(START_BTN) == HIGH && idle) {
     runCount = 0;
     runTotal = TIMES;
+    idle = false;
     startMotor();
   }
   
@@ -80,6 +83,7 @@ void loop() {
     if (runCount < runTotal) {
       startMotor();  
     } else {
+      idle = true;
       digitalWrite(IDLE_RED_LED, HIGH);
     }
   }
