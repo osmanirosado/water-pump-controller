@@ -77,11 +77,11 @@ void loop() {
     }
 
     if (recoveryTimer.done()) {
-        digitalWrite(RECOVERY_BLUE_LED, LOW);
         if (runCount < runTotal) {
             startMotor();
         } else {
             idle = true;
+            digitalWrite(RECOVERY_BLUE_LED, LOW);
             digitalWrite(IDLE_RED_LED, HIGH);
         }
     }
