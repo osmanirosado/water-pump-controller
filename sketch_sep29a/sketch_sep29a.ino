@@ -21,27 +21,27 @@ uint8_t runCount, runTotal;
 Neotimer runTimer = Neotimer(RUN_TIME);
 Neotimer recoveryTimer = Neotimer(RECOVERY_TIME);
 
-void blinkRelay(uint8_t pin) {
+void closeOpenRelay(uint8_t pin) {
     digitalWrite(pin, HIGH);
     delay(500);
     digitalWrite(pin, LOW);
 }
 
 void startMotor() {
-    runTimer.reset();
-    runTimer.start();
     digitalWrite(RECOVERY_BLUE_LED, LOW);
     digitalWrite(IDLE_RED_LED, LOW);
     digitalWrite(RUNNING_GREEN_LED, HIGH);
-    blinkRelay(NO_RELAY);
+    closeOpenRelay(NO_RELAY);
+    runTimer.reset();
+    runTimer.start();
 }
 
 void stopMotor() {
-    blinkRelay(NC_RELAY);
+    closeOpenRelay(NC_RELAY);
     digitalWrite(RUNNING_GREEN_LED, LOW);
+    digitalWrite(RECOVERY_BLUE_LED, HIGH);
     recoveryTimer.reset();
     recoveryTimer.start();
-    digitalWrite(RECOVERY_BLUE_LED, HIGH);
 }
 
 void setup() {
