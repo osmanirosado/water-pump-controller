@@ -44,6 +44,12 @@ void stopMotor() {
     recoveryTimer.start();
 }
 
+volatile boolean touched = false;
+
+void onTouch(){
+    touched = true;
+}
+
 void setup() {
     pinMode(RUNNING_GREEN_LED, OUTPUT);
     pinMode(RECOVERY_BLUE_LED, OUTPUT);
@@ -53,10 +59,14 @@ void setup() {
     pinMode(NC_RELAY, OUTPUT);
     idle = true;
     digitalWrite(IDLE_RED_LED, HIGH);
+    attachInterrupt(digitalPinToInterrupt(START_STOP_BTN), onTouch, RISING);
 }
 
 void loop() {
-    if (digitalRead(START_STOP_BTN) == HIGH) {
+    if (touched) {
+        noInterrupts();
+        touched = false;
+        interrupts();
         if (idle) {
             runCount = 0;
             runTotal = TIMES;
