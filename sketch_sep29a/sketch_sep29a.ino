@@ -32,7 +32,7 @@ void startMotor() {
     digitalWrite(IDLE_RED_LED, LOW);
     digitalWrite(RUNNING_GREEN_LED, HIGH);
     closeOpenRelay(NO_RELAY);
-    runTimer.reset();
+    recoveryTimer.reset();
     runTimer.start();
 }
 
@@ -40,7 +40,7 @@ void stopMotor() {
     closeOpenRelay(NC_RELAY);
     digitalWrite(RUNNING_GREEN_LED, LOW);
     digitalWrite(RECOVERY_BLUE_LED, HIGH);
-    recoveryTimer.reset();
+    runTimer.reset();
     recoveryTimer.start();
 }
 
@@ -83,6 +83,7 @@ void loop() {
             idle = true;
             digitalWrite(RECOVERY_BLUE_LED, LOW);
             digitalWrite(IDLE_RED_LED, HIGH);
+            recoveryTimer.reset();
         }
     }
 }
