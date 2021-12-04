@@ -22,68 +22,77 @@ Neotimer runTimer = Neotimer(RUN_TIME);
 Neotimer recoveryTimer = Neotimer(RECOVERY_TIME);
 
 void closeOpenRelay(uint8_t pin) {
-    digitalWrite(pin, HIGH);
-    delay(500);
-    digitalWrite(pin, LOW);
+    digitalWrite(pin, HIGH); // close the relay
+    delay(500);              // wait some time (close to magnetic reaction time)
+    digitalWrite(pin, LOW);  // open the relay
 }
 
 void startMotor() {
+    // turn on the green LED and turn off the other LEDs
     digitalWrite(RECOVERY_BLUE_LED, LOW);
     digitalWrite(IDLE_RED_LED, LOW);
     digitalWrite(RUNNING_GREEN_LED, HIGH);
+    // simulate a push on the start button (normally open) of the magnetic contactor
     closeOpenRelay(NO_RELAY);
-    recoveryTimer.reset();
+    // start the run timer
     runTimer.start();
 }
 
 void stopMotor() {
+    // simulate a push on the stop button (normally closed) of the magnetic contactor
     closeOpenRelay(NC_RELAY);
+    // turn on the blue LED and turn off the green LED
     digitalWrite(RUNNING_GREEN_LED, LOW);
     digitalWrite(RECOVERY_BLUE_LED, HIGH);
-    runTimer.reset();
+    // start the recovery timer
     recoveryTimer.start();
 }
 
 void setup() {
+    // configure the pins of the LEDs
     pinMode(RUNNING_GREEN_LED, OUTPUT);
     pinMode(RECOVERY_BLUE_LED, OUTPUT);
     pinMode(IDLE_RED_LED, OUTPUT);
+    // configure touch sensor pin
     pinMode(START_STOP_BTN, INPUT);
+    // configure the pins of the relays
     pinMode(NO_RELAY, OUTPUT);
     pinMode(NC_RELAY, OUTPUT);
     idle = true;
+    // turn on red led
     digitalWrite(IDLE_RED_LED, HIGH);
 }
 
 void loop() {
     if (digitalRead(START_STOP_BTN) == HIGH) {
-        if (idle) {
+        if (idle) { // on idle
             runCount = 0;
             runTotal = TIMES;
             idle = false;
             startMotor();
-        } else {
+        } else {   // on running or on recovering
             runTotal = runCount;
-            if (runTimer.waiting()) {
-                runTimer.stop();
+            if (runTimer.waiting()) { // on running
+                runTimer.reset(); // reset method make a call to stop method during its execution
                 stopMotor();
             }
         }
     }
 
     if (runTimer.done()) {
+        runTimer.reset();
         runCount++;
         stopMotor();
     }
 
     if (recoveryTimer.done()) {
-        if (runCount < runTotal) {
+        recoveryTimer.reset();
+        if (runCount < runTotal) {  // start again if the repetitive process is not finished
             startMotor();
-        } else {
+        } else {                    // go idle if the repetitive process finished
             idle = true;
             digitalWrite(RECOVERY_BLUE_LED, LOW);
             digitalWrite(IDLE_RED_LED, HIGH);
-            recoveryTimer.reset();
         }
     }
 }
