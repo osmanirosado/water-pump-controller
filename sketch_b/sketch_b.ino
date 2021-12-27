@@ -16,6 +16,9 @@
 // 16 minutes
 #define RECOVERY_TIME 960000
 
+// Magnetic contactor reaction time
+#define MC_REACTION_TIME 500  // TODO: review this value
+
 boolean idle;
 uint8_t runCount, runTotal;
 Neotimer runTimer = Neotimer(RUN_TIME);
@@ -23,7 +26,7 @@ Neotimer recoveryTimer = Neotimer(RECOVERY_TIME);
 
 void closeOpenRelay(uint8_t pin) {
     digitalWrite(pin, HIGH); // close the relay
-    delay(500);              // wait some time (close to magnetic reaction time)
+    delay(MC_REACTION_TIME); // wait some time (close to magnetic reaction time)
     digitalWrite(pin, LOW);  // open the relay
 }
 
