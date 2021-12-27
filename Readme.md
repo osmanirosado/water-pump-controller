@@ -10,6 +10,10 @@
 - [Grove - Blue LED](https://www.seeedstudio.com/Grove-Blue-LED.html)
 - [Grove - Green LED](https://www.seeedstudio.com/Grove-Green-LED.html)
 
+## Dependencias
+
+- [neotimer](https://github.com/jrullan/neotimer)
+
 ## Conexión
 
 1. Montar la placa base (Base Shield) sobre la placa del controlador Seeeduino.
