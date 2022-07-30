@@ -58,4 +58,7 @@ El contacto normalmente cerrado del relé se conecta al magnético.
 Al abrir el contacto normalmente cerrado del relé durante
 algunos milisegundos, se apaga la bomba.
 
+## Colaboradores
 
+- [Adrian Jesús Pérez-Borroto Vega](https://github.com/adrianpbv) montó los componentes y probó el código.
+- [Jose Daniel Rodríguez](https://github.com/josedanielr) Revisó la biblioteca [neotimer](https://github.com/jrullan/neotimer).
