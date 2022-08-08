@@ -17,7 +17,7 @@
 #define RECOVERY_TIME 960000
 
 // Magnetic contactor reaction time
-#define MC_REACTION_TIME 500  // TODO: review this value
+#define MC_REACTION_TIME 500
 
 boolean idle;
 uint8_t runCount, runTotal;
