@@ -11,9 +11,9 @@
 #define NC_RELAY 8
 
 #define TIMES 3
-// 8 minutes
+//  8 m = 1000*60*8 = 480000 ms
 #define RUN_TIME 480000
-// 16 minutes
+// 16 m = 1000*60*16 = 960000 ms
 #define RECOVERY_TIME 960000
 
 // Magnetic contactor reaction time
