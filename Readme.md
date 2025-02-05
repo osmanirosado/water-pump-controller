@@ -21,42 +21,35 @@
 2. Conectar el led verde en el puerto D2.
 3. Conectar el led azul en el puerto D3.
 4. Conectar el led rojo en el puerto D4.
-5. Conectar el botón de contacto (touch sensor) en el puerto D5.
-6. Conectar los relés (2-Channel SPDT Relay) en el puerto D7.  
+5. Conectar los relés (2-Channel SPDT Relay) en el puerto D7.
    El puerto D8 es usado por uno de los reles conectados en el puerto D7.  
    Esto sucede porque el pin digital 8 está disponible también en el puerto D7.
 
 ## Comportamiento
 
-Hay un botón de contacto, para encender y detener la bomba de agua.
+Existen tres estados: espera, bombeo y reposo.
+La espera comienza al conectar el controlador a la fuente de alimentación.
+Le sigue el proceso de bombeo y reposo.
+Este proceso puede repetirse varias veces.
 
-Al hacer contacto en el botón (cuando el sistema esta apagado), 
-empieza un proceso de bombeo y recuperación que se repite tres veces.
-Primero se inicia un temporizador que, detiene el bombeo después de un
-tiempo. Luego se inicia otro temporizador,
-que garantiza un tiempo de recuperación del pozo, 
-antes de iniciar el proceso nuevamente.
+El led rojo indica que el proceso está detenido.
+El led verde indica que la bomba está en funcionamiento.
+El led azul indica que el sistema está en reposo o en espera.
 
-El número de veces que se repite el proceso, el tiempo de bombeo
-y el tiempo de reposo, son constantes definidas en el código.
+## Configuración
 
-Al hacer contacto en el botón (cuando el sistema esta encendido), 
-se detiene el proceso.
-Si la bomba está funcionando se apaga. Si el temporizador de recuperación
-está funcionando, se deja terminar para evitar un inicio apresurado.
+El número de veces que se repite el proceso, el tiempo de espera,
+el tiempo de bombeo y el tiempo de reposo, son constantes definidas en el código.
 
-El led rojo indica que el proceso está detenido. El led verde indica que la 
-bomba está en funcionamiento. El led azul indica que el sistema está en el tiempo
-de recuperación.
+## Detalles
 
-Un relé simula el botón de encendido del magnético. El contacto normalmente abierto
-del relé se conecta al magnético. Al cerrar el contacto normalmente
-abierto del relé durante algunos milisegundos, se enciende la bomba.
+Un relé simula el botón de encendido del magnético.
+El contacto normalmente abierto del relé se conecta al magnético.
+Al cerrar ese contacto durante unos milisegundos, se enciende la bomba.
 
 El otro relé simula el botón de apagado del magnético.
 El contacto normalmente cerrado del relé se conecta al magnético.
-Al abrir el contacto normalmente cerrado del relé durante
-algunos milisegundos, se apaga la bomba.
+Al abrir ese contacto durante unos milisegundos, se apaga la bomba.
 
 ## Colaboradores
 
